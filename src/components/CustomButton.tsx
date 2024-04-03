@@ -6,11 +6,13 @@ import {
   PressableProps,
   Dimensions,
 } from 'react-native';
+import {colors} from '../constants';
 
 interface CustomButtonProps extends PressableProps {
   label: string;
   variant?: 'filled' | 'outlined';
   size?: 'large' | 'medium';
+  inValid?: boolean;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
@@ -19,11 +21,18 @@ function CustomButton({
   label,
   variant = 'filled',
   size = 'large',
+  inValid = false,
   ...props // PressableProps 기능들
 }: CustomButtonProps) {
   return (
     <Pressable
-      style={[styles.container, styles[variant], styles[size]]}
+      disabled={inValid}
+      style={({pressed}) => [
+        styles.container,
+        styles[size],
+        pressed ? styles[`${variant}Pressed`] : styles[variant],
+        inValid && styles.inValid,
+      ]}
       {...props}>
       <Text style={styles[`${variant}Text`]}>{label}</Text>
     </Pressable>
@@ -35,11 +44,14 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     justifyContent: 'center',
   },
+  inValid: {
+    opacity: 0.5,
+  },
   filled: {
-    backgroundColor: '#C63B64',
+    backgroundColor: colors.PINK_700,
   },
   outlined: {
-    borderColor: '#C63B64',
+    borderColor: colors.PINK_700,
     borderWidth: 1,
   },
   large: {
@@ -62,7 +74,15 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   outlinedText: {
-    color: '#C63B64',
+    color: colors.PINK_700,
+  },
+  filledPressed: {
+    backgroundColor: colors.PINK_500,
+  },
+  outlinedPressed: {
+    borderColor: colors.PINK_700,
+    borderWidth: 1,
+    opacity: 0.5,
   },
 });
 
