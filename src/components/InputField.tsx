@@ -9,7 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import {colors} from '../constants';
-import {mergeRefs} from '../utils/common';
+import {mergeRefs} from '../utils';
 
 interface InputFieldProps extends TextInputProps {
   disabled?: boolean;

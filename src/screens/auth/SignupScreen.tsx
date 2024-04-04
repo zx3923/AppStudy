@@ -12,10 +12,15 @@ function SignupScreen() {
     initialValue: {email: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
   });
+
+  const handleSubmit = () => {
+    console.log('login', signup.values);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
         <InputField
+          autoFocus
           placeholder="이메일"
           error={signup.errors.email}
           touched={signup.touched.email}
@@ -33,7 +38,7 @@ function SignupScreen() {
           secureTextEntry
           returnKeyType="next"
           blurOnSubmit={false}
-          onSubmitEditing={() => passwordRef.current?.focus()}
+          onSubmitEditing={() => passwordConfirmRef.current?.focus()}
           {...signup.getTextInputProps('password')}
         />
         <InputField
@@ -42,10 +47,11 @@ function SignupScreen() {
           error={signup.errors.passwordConfirm}
           touched={signup.touched.passwordConfirm}
           secureTextEntry
+          onSubmitEditing={handleSubmit}
           {...signup.getTextInputProps('passwordConfirm')}
         />
       </View>
-      <CustomButton label="회원가입" />
+      <CustomButton label="회원가입" onPress={handleSubmit} />
     </SafeAreaView>
   );
 }
