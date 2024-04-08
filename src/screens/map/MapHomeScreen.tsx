@@ -1,7 +1,13 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import useAuth from '@/hooks/queries/useAuth';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {
+  Callout,
+  LatLng,
+  LongPressEvent,
+  Marker,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import {colors} from '@/constants';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
@@ -13,6 +19,8 @@ import useUserLoction from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import mapStyle from '@/style/mapStyle';
+import CustomMarker from '@/components/CustomMarker';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -26,6 +34,7 @@ function MapHomeScreen() {
   const {logoutMutation} = useAuth();
   const mapRef = useRef<MapView | null>(null);
   const {userLocation, isUserLocationError} = useUserLoction();
+  const [selectLocation, setSelectLocation] = useState<LatLng>();
 
   usePermission('LOCATION');
 
@@ -33,7 +42,6 @@ function MapHomeScreen() {
     if (isUserLocationError) {
       return;
     }
-    console.log(userLocation);
 
     mapRef.current?.animateToRegion({
       latitude: userLocation.latitude,
@@ -41,6 +49,10 @@ function MapHomeScreen() {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
+  };
+
+  const hanldeLongPressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectLocation(nativeEvent.coordinate);
   };
 
   return (
@@ -52,16 +64,50 @@ function MapHomeScreen() {
         showsUserLocation
         followsUserLocation
         showsMyLocationButton={false}
-      />
+        customMapStyle={mapStyle}
+        onLongPress={hanldeLongPressMapView}>
+        <Marker
+          coordinate={{
+            latitude: 37.5516032365118,
+            longitude: 126.98989626020192,
+          }}
+        />
+        <CustomMarker
+          color="RED"
+          coordinate={{
+            latitude: 36.349816666666664,
+            longitude: 127.40404833333333,
+          }}
+        />
+        <CustomMarker
+          color="BLUE"
+          score={3}
+          coordinate={{
+            latitude: 36.449816666666664,
+            longitude: 127.50404833333333,
+          }}
+        />
+        <CustomMarker
+          color="YELLOW"
+          score={1}
+          coordinate={{
+            latitude: 36.549816666666664,
+            longitude: 127.60404833333333,
+          }}
+        />
+        {selectLocation && (
+          <Callout>
+            <Marker coordinate={selectLocation} />
+          </Callout>
+        )}
+      </MapView>
       <Pressable
         style={[styles.drawerButton, {top: inset.top || 20}]}
         onPress={() => navigation.openDrawer()}>
-        {/* <Text>서랍</Text> */}
         <Ionicons name="menu" color={colors.WHITE} size={20} />
       </Pressable>
       <View style={styles.buttonList}>
         <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
-          {/* <Text>내위치</Text> */}
           <MaterialIcons name="my-location" color={colors.WHITE} size={25} />
         </Pressable>
       </View>
