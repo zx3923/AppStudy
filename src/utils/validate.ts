@@ -4,7 +4,7 @@ type UserInfomation = {
 };
 
 function validateUser(values: UserInfomation) {
-const errors = {
+  const errors = {
     email: '',
     password: '',
   };
@@ -22,13 +22,25 @@ function validateLogin(values: UserInfomation) {
   return validateUser(values);
 }
 
-function validateSignup(values: UserInfomation & {passwordConfirm:string}) {
+function validateSignup(values: UserInfomation & {passwordConfirm: string}) {
   const errors = validateUser(values);
-  const signupErrors = { ...errors, passwordConfirm: '' };
+  const signupErrors = {...errors, passwordConfirm: ''};
   if (values.password !== values.passwordConfirm) {
     signupErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.';
   }
   return signupErrors;
 }
 
-export { validateLogin, validateSignup };
+function validateAddPost(values: {title: string}) {
+  const errors = {
+    title: '',
+    description: '',
+  };
+
+  if (values.title.trim() === '') {
+    errors.title = '제목은 1~30자 이내로 입력해주세요.';
+  }
+  return errors;
+}
+
+export {validateLogin, validateSignup, validateAddPost};
