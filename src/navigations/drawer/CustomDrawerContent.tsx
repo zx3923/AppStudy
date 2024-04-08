@@ -5,11 +5,21 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const {getProfileQuery} = useAuth();
+  const {getProfileQuery, logoutMutation} = useAuth();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
+  const handleLogout = () => {
+    logoutMutation.mutate(null);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,7 +28,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         scrollEnabled={false}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.userInfoContainer}>
-          <View style={styles.userImageContainer}>
+          <Pressable style={styles.userImageContainer}>
             {imageUri === null && kakaoImageUri === null && (
               <Image
                 source={require('@/assets/user.png')}
@@ -31,11 +41,20 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             {imageUri !== null && (
               <Image source={{uri: imageUri}} style={styles.userImage} />
             )}
-          </View>
+          </Pressable>
           <Text style={styles.nameText}>{nickname ?? email}</Text>
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
+
+      <Pressable
+        onPress={handleLogout}
+        style={{
+          alignItems: 'flex-end',
+          padding: 10,
+        }}>
+        <Text>로그아웃</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
