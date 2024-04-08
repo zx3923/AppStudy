@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    color: 'black',
+    color: colors.BLACK,
     padding: 0,
   },
   disabled: {

@@ -1,4 +1,4 @@
-import {mapNavigations} from '@/constants';
+import {colors, mapNavigations} from '@/constants';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
@@ -15,16 +15,16 @@ function MapStackNavigator() {
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          backgroundColor: 'white',
+          backgroundColor: colors.WHITE,
         },
         headerStyle: {
-          backgroundColor: 'white',
+          backgroundColor: colors.WHITE,
           shadowColor: 'gray',
         },
         headerTitleStyle: {
           fontSize: 15,
         },
-        headerTintColor: 'black',
+        headerTintColor: colors.BLACK,
       }}>
       <Stack.Screen
         name={mapNavigations.MAP_HOME}

@@ -11,6 +11,8 @@ import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import useUserLoction from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -54,11 +56,13 @@ function MapHomeScreen() {
       <Pressable
         style={[styles.drawerButton, {top: inset.top || 20}]}
         onPress={() => navigation.openDrawer()}>
-        <Text>서랍</Text>
+        {/* <Text>서랍</Text> */}
+        <Ionicons name="menu" color={colors.WHITE} size={20} />
       </Pressable>
       <View style={styles.buttonList}>
         <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
-          <Text>내위치</Text>
+          {/* <Text>내위치</Text> */}
+          <MaterialIcons name="my-location" color={colors.WHITE} size={25} />
         </Pressable>
       </View>
     </>
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PINK_700,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
-    shadowColor: 'black',
+    shadowColor: colors.BLACK,
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.5,
     elevation: 4,
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 30,
-    shadowColor: 'black',
+    shadowColor: colors.BLACK,
     shadowOffset: {width: 1, height: 2},
     shadowOpacity: 0.5,
     elevation: 2,

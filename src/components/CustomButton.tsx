@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   filledText: {
-    color: 'white',
+    color: colors.WHITE,
   },
   outlinedText: {
     color: colors.PINK_700,
